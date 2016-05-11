@@ -1,15 +1,14 @@
-# Serverless Secrets
-## MAKE SECRETS GREAT AGAIN
+# Serverless Secrets : MAKE SECRETS GREAT AGAIN
 
-*A no fuss way of getting secrets into your Serverless functions, compatible with credstash*
+*A no fuss way of getting secrets into your Serverless functions, compatible with [Credstash](https://github.com/fugue/credstash)*
 
 # WARNING: STILL SUPER IN DEVELOPMENT, DON'T ACTUALLY USE THIS FOR PRODUCTION (Or look at the source code 😕)
 
 **Problem:** The Serverless project currently offers no good way of managing secrets. There is the `_meta` folder which is ignored from a git repo by default, but what if you are working in a team? You could put it in the repo, but "secrets"  in a git repo is bad practice.
 
-So, what if you could put `_meta` in a secure place and share it around the team? That's what Serverless S3 meta sync is for... but, then you still have secrets either floating around on developers machines, things could still be out of sync, you have to access control the files to proper machines in your pipeline... it's all not fun.
+So, what if you could put `_meta` in a secure place and share it around the team? That's what [Serverless meta sync](https://github.com/serverless/serverless-meta-sync) is for... but, then you still have secrets either floating around on developers machines, things could still be out of sync, you have to access control the files to proper machines in your pipeline... it's all not fun.
 
-**Solution:** The `_meta` folder is actually quite good at what it does, and in our humble opinion version controlling it in git is fine, if you had a way to still protect your secrets. So, that's why we built Severless Secrets. Use Credstash to put / version / manage your secrets, and use magic strings in your `_meta` folder. That's it.
+**Solution:** The `_meta` folder is actually quite good at what it does, and in our humble opinion version controlling it in git is fine, if you had a way to still protect your secrets. So, that's why we are building Severless Secrets. Use [Credstash](https://github.com/fugue/credstash) to put / version / manage your secrets, and use magic strings in your `_meta` folder. That's it.
 
 
 # Setup
@@ -41,7 +40,7 @@ Configure the IAM policy for the lambda functions that will use encrypted secret
 }
 ```
 
-Use the magic string in your `_meta`folder to denote an encrypted secret. Prefixing any variable with `secret::` tells the plugin to fetch and decrypt it. Postfixing a secret with `::{version}` tells it to fetch a version of the given number. (You could probably use alphanumberic too if you wanted.)
+Use the magic string in your `_meta`folder to denote an encrypted secret. Prefixing any variable with `secret::` tells the plugin to fetch and decrypt it. Postfixing a secret with `::{version}` tells it to fetch a version of the given number. (You could probably use alphanumeric too if you wanted.)
 ```
 # _meta/variables/s-variables-common.json
 # _meta/variables/s-variables-stage.json
