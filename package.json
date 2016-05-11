@@ -1,6 +1,6 @@
 {
   "name": "serverless-secrets",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A serverless plugin for managing secrets, Credstash compatible.",
   "main": "src/index.js",
   "scripts": {

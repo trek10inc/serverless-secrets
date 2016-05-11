@@ -56,7 +56,6 @@ module.exports = function(S) {
 
 
     _addSecretsHandling(evt){
-      console.log(evt);
       let _this = this;
       _this.project    = S.getProject();
       let func = _this.project.getFunction(evt.options.name);
