@@ -89,7 +89,6 @@ function getAndDecryptSecret(encryptedString, callback){
       if (err) console.log(err);
       else {
         var cipherText = new Buffer(data.Items[0].key, 'base64');
-        console.log("CT:", cipherText);
         kms.decrypt({CiphertextBlob: cipherText }, function(err, key) {
           if (err) console.log(err, err.stack);
           else{
