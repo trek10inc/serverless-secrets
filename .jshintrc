@@ -1,0 +1,5 @@
+{
+	"node": true,
+	"globalstrict": true,
+	"predef": [ "describe", "beforeEach", "afterEach", "it" ]
+}
