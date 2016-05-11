@@ -27,7 +27,7 @@ Configure the IAM policy for the lambda functions that will use encrypted secret
     "kms:Decrypt"
   ],
   "Effect": "Allow",
-  "Resource": "arn:aws:kms:${region}:738317252543:key/${keyId}"
+  "Resource": "arn:aws:kms:${region}:${awsAccountId}:key/${keyId}"
 },
 {
   "Action": [
@@ -36,7 +36,7 @@ Configure the IAM policy for the lambda functions that will use encrypted secret
     "dynamodb:Scan"
   ],
   "Effect": "Allow",
-  "Resource": "arn:aws:dynamodb:${region}:738317252543:table/credential-store"
+  "Resource": "arn:aws:dynamodb:${region}:${awsAccountId}:table/credential-store"
 }
 ```
 
