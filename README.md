@@ -13,7 +13,7 @@ So, what if you could put `_meta` in a secure place and share it around the team
 Serverless Secrets supports multiple providers, and is built to easily allow for more. You can use as many or few providers in each project as you desire.
 
 **KMS** Raw KMS wrapping of short strings, the easiest to get started with.  
-**KMS File** Wraps a file with encryption, allowing large blogs to be encrypted.  
+**KMS File** Wraps a file with encryption, allowing large blobs to be encrypted.  
 **Credstash** A [CredStash](https://github.com/fugue/credstash) compliant decryptor, most flexible and feature rich option, but more setup required.
 
 # Project Setup
