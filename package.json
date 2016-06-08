@@ -4,8 +4,7 @@
   "description": "A serverless plugin for managing secrets, Credstash compatible.",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "make"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -32,9 +31,5 @@
     "lodash": "^4.13.1",
     "mkpath": "^1.0.0",
     "ncp": "^2.0.0"
-  },
-  "devDependencies": {
-    "browserify": "^13.0.1",
-    "uglify-js": "^2.6.2"
   }
 }
