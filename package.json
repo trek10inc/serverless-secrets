@@ -1,10 +1,11 @@
 {
   "name": "serverless-secrets",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "A serverless plugin for managing secrets, Credstash compatible.",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "make"
   },
   "repository": {
     "type": "git",
@@ -12,6 +13,8 @@
   },
   "keywords": [
     "serverless",
+    "serverless secrets",
+    "serverless management",
     "serverless plugin",
     "secrets",
     "env"
@@ -23,8 +26,15 @@
   },
   "homepage": "https://github.com/trek10inc/serverless-secrets",
   "dependencies": {
+    "aes-js": "^2.0.0",
     "aws-sdk": "^2.3.9",
     "bluebird": "^3.1.1",
-    "lodash": "^4.0.0"
+    "lodash": "^4.13.1",
+    "mkpath": "^1.0.0",
+    "ncp": "^2.0.0"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.1",
+    "uglify-js": "^2.6.2"
   }
 }
