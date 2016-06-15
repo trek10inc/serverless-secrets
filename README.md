@@ -21,6 +21,13 @@ Serverless Secrets supports multiple providers, and is built to easily allow for
 In the root of your Serverless project...
 `npm install serverless-secrets --save`
 
+Add the plugin in s-project.json...
+```
+"plugins": [
+    "serverless-secrets"
+  ]
+```  
+
 
 # KMS & KMS File Providers Setup
 
@@ -62,15 +69,15 @@ post processing on it, particularly in the case of the `kmsfile` provider.
 ### Encryption
 
 **KMS**  
-`serverless secrets encrypt --provider kms --plaintext SuperSecretString`
-`serverless secrets encrypt -p kms -t SuperSecretString`
+`serverless secret encrypt --provider kms --plaintext SuperSecretString`  
+`serverless secret encrypt -p kms -t SuperSecretString`
 
 **KMS File**
-`serverless secrets encrypt --provider kmsfile --file file.txt`
-`serverless secrets encrypt -p kmsfile -f file.txt`
+`serverless secret encrypt --provider kmsfile --file file.txt`  
+`serverless secret encrypt -p kmsfile -f file.txt`
 
 The KMS File encryptor can work with relative file paths so you can keep all your secrets outside of your repo.  
-`serverless secrets encrypt -p kmsfile -f ../../secrets-out-of-repo/file.txt`
+`serverless secret encrypt -p kmsfile -f ../../secrets-out-of-repo/file.txt`
 
 
 # Credstash Provider Setup
