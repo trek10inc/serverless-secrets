@@ -21,14 +21,20 @@ function _encryptor(evt, project, callback){
             }`);
   }
 
-  // Resolve to arn with magic from custom
-  if(evt.options.arn && config.kms[evt.options.arn]){
+  // Resolve to arn with magic from custom if possible
+  if(evt.options.arn && (config.kms && config.kms[evt.options.arn])){
     evt.options.arn = config.kms[evt.options.arn];
   }
 
   const kmskey = evt.options.arn || config.kms.default;
 
   const region = kmskey.split(':')[3];
+
+  if(!region){
+    return callback(`${evt.options.arn} does not exist in your configs, or is not a valid arn.
+            example arn: arn:aws:kms:us-east-1:123456789012:alias/ProdAliasName)`);
+  }
+
   const kms = new AWS.KMS({region: region});
 
 

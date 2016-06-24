@@ -131,6 +131,11 @@ module.exports = function(S) {
       let _this = this;
       _this.project    = S.getProject();
 
+      // Check if provider exist
+      if (typeof encryptors[evt.options.provider] != 'function') {
+        return SCli.log(`Uh oh, the ${evt.options.provider} provider doesn't exist. Try kms or kmsfile.`);
+      }
+
       encryptors[evt.options.provider](evt, _this.project, function(err, response){
         let message = response;
         if(err){

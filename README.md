@@ -68,17 +68,39 @@ post processing on it, particularly in the case of the `kmsfile` provider.
 
 ### Encryption
 
+**Configuration**
+During encrpytion you can specify a key arn with --arn or set a default kms key in project custom configs.
+You can also set shortcuts and use --arn prod to access the prod arn shown below.
+
+```
+{
+  ...
+  "custom": {
+    "secrets": {
+      "kms": {
+        "default": "arn:aws:kms:us-east-1:123456789012:alias/MyAliasName",
+        "prod": "arn:aws:kms:us-east-1:123456789012:alias/ProdAliasName"
+      },
+      "kmsfile": {
+        "default": "arn:aws:kms:us-east-1:123456789012:alias/MyAliasName",
+        "preprod": "arn:aws:kms:us-east-1:123456789012:alias/ProdAliasName"
+      }
+    }
+  }
+  ...
+}
+```
+
 **KMS**  
-`serverless secret encrypt --provider kms --plaintext SuperSecretString`  
-`serverless secret encrypt -p kms -t SuperSecretString`
+`serverless secret encrypt --provider kms --plaintext SuperSecretString --arn prod`
+`serverless secret encrypt -p kms -t SuperSecretString -a prod`
 
 **KMS File**
-`serverless secret encrypt --provider kmsfile --file file.txt`  
-`serverless secret encrypt -p kmsfile -f file.txt`
+`serverless secret encrypt --provider kmsfile --file file.txt --arn preprod`
+`serverless secret encrypt -p kmsfile -f file.txt -a preprod`
 
 The KMS File encryptor can work with relative file paths so you can keep all your secrets outside of your repo.  
-`serverless secret encrypt -p kmsfile -f ../../secrets-out-of-repo/file.txt`
-
+`serverless secret encrypt -p kmsfile -f ../../secrets-out-of-repo/file.txt -a preprod`
 
 # Credstash Provider Setup
 Install / setup [CredStash](https://github.com/fugue/credstash). To make things easy on yourself just use defaults (table: credential-store, region: us-east-1)
