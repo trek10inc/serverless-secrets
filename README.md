@@ -1,3 +1,5 @@
+# PLUGIN IS DEPRECATED AND UNMAINTAINED. ONLY COMPAITIBLE WITH SLS 0.X.
+
 ![serverless_secrets_logo](https://cloud.githubusercontent.com/assets/1689118/15905519/23bf2208-2d83-11e6-96fb-7dc1edd359ee.png)
 
 *A no fuss way of getting secrets into your Serverless functions*
