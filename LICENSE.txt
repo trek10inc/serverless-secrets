@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) 2015 Serverless, Inc. http://www.serverless.com
+Copyright (c) 2015 Trek10, Inc. https://www.trek10.com/
 
 The following license applies to all parts of this software except as
 documented below:

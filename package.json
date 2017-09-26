@@ -1,10 +1,10 @@
 {
   "name": "serverless-secrets",
-  "version": "2.0.2",
-  "description": "A serverless plugin for managing secrets, Credstash compatible.",
-  "main": "src/index.js",
+  "version": "3.0.0-beta.0",
+  "description": "A serverless plugin for managing secrets",
+  "main": "plugin/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava"
   },
   "repository": {
     "type": "git",
@@ -16,6 +16,9 @@
     "serverless management",
     "serverless plugin",
     "secrets",
+    "encrypt",
+    "aws",
+    "parameter store",
     "env"
   ],
   "author": "Jared Short <jshort@trek10.com> (https://www.trek10.com)",
@@ -25,11 +28,17 @@
   },
   "homepage": "https://github.com/trek10inc/serverless-secrets",
   "dependencies": {
-    "aes-js": "^2.0.0",
-    "aws-sdk": "^2.3.9",
-    "bluebird": "^3.1.1",
-    "lodash": "^4.13.1",
-    "mkpath": "^1.0.0",
-    "ncp": "^2.0.0"
+    "aws-sdk": "^2.102.0",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "ava": "^0.19.1",
+    "testdouble": "^2.1.2"
+  },
+  "ava": {
+    "files": [
+      "**/*.{test,tests}.{js,jsx}"
+    ],
+    "concurrency": 5
   }
 }

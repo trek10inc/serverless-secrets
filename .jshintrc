@@ -1,6 +1,0 @@
-{
-	"node": true,
-	"globalstrict": true,
-	"esnext": true,
-	"predef": [ "describe", "beforeEach", "afterEach", "it", "__ENV_VARS__", "__HANDLER_REQUIRE__" ]
-}
