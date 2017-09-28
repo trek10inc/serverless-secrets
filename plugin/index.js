@@ -18,6 +18,7 @@ class ServerlessSecrets {
         commands: {
           set: {
             lifecycleEvents: ['set'],
+            usage: 'Sets a secret value.',
             options: {
               name: {
                 usage: '[REQUIRED] name of the secret',
@@ -51,6 +52,7 @@ class ServerlessSecrets {
           },
           get: {
             lifecycleEvents: ['get'],
+            usage: 'Gets a secret value by name.',
             options: {
               name: {
                 usage: '[REQUIRED] name of the secret',
@@ -65,6 +67,7 @@ class ServerlessSecrets {
           },
           'list-remote': {
             lifecycleEvents: ['list-remote'],
+            usage: 'Lists all remote secrets.',
             options: {
               region: {
                 usage: 'AWS region where secret will be stored; region will fallback to configured (or default) `providerOptions`',
@@ -74,6 +77,7 @@ class ServerlessSecrets {
           },
           validate: {
             lifecycleEvents: ['validate'],
+            usage: 'Validates the secrets used in serverless.yml exist in provider.',
             options: {
               region: {
                 usage: 'AWS region where secret will be stored; region will fallback to configured (or default) `providerOptions`',
@@ -235,7 +239,7 @@ class ServerlessSecrets {
   }
 
   setIamPermissions (config) {
-    let iamRoleStatements = _.get(this.serverless.service, 'provider.iamRoleStatements', null)
+    let iamRoleStatements = _.get(this.serverless.service, 'provider.iamRoleStatements', [])
     if (!iamRoleStatements) {
       _.set(this.serverless.service, ['provider.iamRoleStatements'], [])
       _.get(this.serverless.service, 'provider.iamRoleStatements')
