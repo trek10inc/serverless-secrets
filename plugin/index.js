@@ -186,8 +186,9 @@ class ServerlessSecrets {
   }
 
   generateConfig () {
+    this.serverless.cli.log(this.serverless.service.provider.name)
     this.serverless.cli.log('Generating Serverless Secrets Config')
-    if (this.serverless.service.provider.name) {
+    if (!this.serverless.service.provider.name) {
       throw new Error('No provider name configured in serverless.yml')
     }
 
