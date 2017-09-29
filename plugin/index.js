@@ -111,6 +111,7 @@ class ServerlessSecrets {
 
     // region flag overrides configuration only when not deploying
     if (!this.deployMode && this.options.region) providerOptions.region = this.options.region
+    else providerOptions.region = providerOptions.region || this.serverless.service.provider.region
 
     const providerName = _.get(this.serverless.service, 'provider.name', null)
     switch (providerName) {
