@@ -180,7 +180,7 @@ class ServerlessSecrets {
     this.writeConfigFile(this.config)
 
     if (!_.get(this.serverless.service, 'package.include')) {
-      _.set(this.serverless.service, ['package.include'], [])
+      _.set(this.serverless.service, 'package.include', [])
     }
     this.serverless.service.package.include.push(constants.CONFIG_FILE_NAME)
 
@@ -212,10 +212,11 @@ class ServerlessSecrets {
 
     // variables
     const functions = this.serverless.service.functions
-    config.environments = functions.map(func => func.handler.split('.')[1])
-      .reduce((environments, functionName) => {
-        if (functions[functionName].environmentSecrets) {
-          environments[functionName] = functions[functionName].environmentSecrets
+    config.environments = Object.keys(functions)
+      .reduce((environments, key) => {
+        const functionName = functions[key].handler.split('.')[1]
+        if (functions[key].environmentSecrets) {
+          environments[functionName] = functions[key].environmentSecrets
         }
         return environments
       }, {})
