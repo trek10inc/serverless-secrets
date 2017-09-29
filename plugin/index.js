@@ -242,9 +242,6 @@ class ServerlessSecrets {
       if (!functions[functionName].environment) functions[functionName].environment = {}
       Object.assign(functions[functionName].environment, config.environments.$global, config.environments[functionName])
     })
-
-    this.serverless.cli.log(JSON.stringify('POST ENV'))
-    this.serverless.cli.log(JSON.stringify(functions))
   }
 
   setIamPermissions (config) {
