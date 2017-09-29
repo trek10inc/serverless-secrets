@@ -187,7 +187,7 @@ class ServerlessSecrets {
     }
     this.serverless.service.package.include.push(constants.CONFIG_FILE_NAME)
 
-    this.setAdditionalEnvironmentVariables(this.config)
+    // this.setAdditionalEnvironmentVariables(this.config)
     this.setIamPermissions(this.config)
     return this.validateSecrets(this.config)
   }
@@ -284,11 +284,13 @@ class ServerlessSecrets {
     const functionsCollisionGroups = _.mapValues(functions, func => this.findAllEnvironmentSecretsDuplicatedInEnvironment(func.environmentSecrets, func.environment))
     const functionsProviderCollisionGroups = _.mapValues(functions, func => this.findAllEnvironmentSecretsDuplicatedInEnvironment(func.environmentSecrets, provider.environment))
     const providerFunctionsCollisionGroups = _.mapValues(functions, func => this.findAllEnvironmentSecretsDuplicatedInEnvironment(provider.environmentSecrets, func.environment))
+    const providerSecretsFunctionsSecretsCollisionGroups = _.mapValues(functions, func => this.findAllEnvironmentSecretsDuplicatedInEnvironment(provider.environmentSecrets, func.environmentSecrets))
 
     const collisionsErrorMessage = [this.constructCollisionsErrorMessage(providerCollisionGroup, null, null)]
       .concat(_.toPairs(providerFunctionsCollisionGroups).map(([funcName, collisionGroups]) => this.constructCollisionsErrorMessage(collisionGroups, null, funcName)))
       .concat(_.toPairs(functionsProviderCollisionGroups).map(([funcName, collisionGroups]) => this.constructCollisionsErrorMessage(collisionGroups, funcName, null)))
       .concat(_.toPairs(functionsCollisionGroups).map(([funcName, collisionGroups]) => this.constructCollisionsErrorMessage(collisionGroups, funcName, funcName)))
+      .concat(_.toPairs(providerSecretsFunctionsSecretsCollisionGroups).map(([funcName, collisionGroups]) => this.constructCollisionsErrorMessage(collisionGroups, null, funcName)))
       .filter(x => !!x)
       .join('\n')
 
