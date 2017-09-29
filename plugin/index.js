@@ -213,10 +213,10 @@ class ServerlessSecrets {
     // variables
     const functions = this.serverless.service.functions
     config.environments = Object.keys(functions)
-      .map(key => functions[key].handler.split('.')[1])
-      .reduce((environments, functionName) => {
-        if (functions[functionName].environmentSecrets) {
-          environments[functionName] = functions[functionName].environmentSecrets
+      .reduce((environments, key) => {
+        const functionName = functions[key].handler.split('.')[1]
+        if (functions[key].environmentSecrets) {
+          environments[functionName] = functions[key].environmentSecrets
         }
         return environments
       }, {})
