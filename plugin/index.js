@@ -100,7 +100,9 @@ class ServerlessSecrets {
       'after:deploy:function:packageFunction': this.cleanupPackageSecrets.bind(this),
       'before:offline:start': this.packageSecrets.bind(this),
       'before:offline:start:init': this.packageSecrets.bind(this),
-      'before:offline:start:end': this.cleanupPackageSecrets.bind(this)
+      'before:offline:start:end': this.cleanupPackageSecrets.bind(this),
+      'before:invoke:local:invoke': this.packageSecrets.bind(this),
+      'after:invoke:local:invoke': this.cleanupPackageSecrets.bind(this)
     }
   }
 
@@ -109,6 +111,7 @@ class ServerlessSecrets {
 
     // region flag overrides configuration only when not deploying
     if (!this.deployMode && this.options.region) providerOptions.region = this.options.region
+    else providerOptions.region = providerOptions.region || this.serverless.service.provider.region
 
     const providerName = _.get(this.serverless.service, 'provider.name', null)
     switch (providerName) {
@@ -220,6 +223,7 @@ class ServerlessSecrets {
         }
         return environments
       }, {})
+
     config.environments.$global = this.serverless.service.provider.environmentSecrets || {}
 
     return config
