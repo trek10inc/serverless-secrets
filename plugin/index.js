@@ -180,16 +180,16 @@ class ServerlessSecrets {
   packageSecrets () {
     this.deployMode = true
     this.serverless.cli.log('Serverless Secrets beginning packaging process')
-    this.writeConfigFile(this.config)
+    this.writeConfigFile()
 
     if (!_.get(this.serverless.service, 'package.include')) {
       _.set(this.serverless.service, 'package.include', [])
     }
     this.serverless.service.package.include.push(constants.CONFIG_FILE_NAME)
 
-    this.setAdditionalEnvironmentVariables(this.config)
-    this.setIamPermissions(this.config)
-    return this.validateSecrets(this.config)
+    this.setIamPermissions()
+    return this.validateSecrets()
+      .then(() => this.setAdditionalEnvironmentVariables())
   }
 
   generateConfig () {
@@ -229,22 +229,22 @@ class ServerlessSecrets {
     return config
   }
 
-  writeConfigFile (config) {
+  writeConfigFile () {
     this.serverless.cli.log(`Writing ${constants.CONFIG_FILE_NAME}`)
-    fs.writeFileSync(constants.CONFIG_FILE_NAME, JSON.stringify(config))
+    fs.writeFileSync(constants.CONFIG_FILE_NAME, JSON.stringify(this.config))
   }
 
-  setAdditionalEnvironmentVariables (config) {
+  setAdditionalEnvironmentVariables () {
     // this adds the function name and all of the environmentSecrets to every function just to make them visible
     this.serverless.cli.log('Adding environment variable placeholders for Serverless Secrets')
     const functions = this.serverless.service.functions
     Object.keys(functions).forEach(functionName => {
       if (!functions[functionName].environment) functions[functionName].environment = {}
-      Object.assign(functions[functionName].environment, config.environments.$global, config.environments[functionName])
+      Object.assign(functions[functionName].environment, this.config.environments.$global, this.config.environments[functionName])
     })
   }
 
-  setIamPermissions (config) {
+  setIamPermissions () {
     let iamRoleStatements = _.get(this.serverless.service, 'provider.iamRoleStatements', null)
     if (!iamRoleStatements) {
       _.set(this.serverless.service, ['provider.iamRoleStatements'], [])
@@ -254,12 +254,12 @@ class ServerlessSecrets {
       iamRoleStatements.push({
         Effect: 'Allow',
         Action: 'ssm:GetParameters',
-        Resource: config.resourceForIamRole || '*' // todo make this enumerate the exact secrets
+        Resource: this.config.resourceForIamRole || '*' // todo make this enumerate the exact secrets
       })
     }
   }
 
-  validateSecrets (config) {
+  validateSecrets () {
     if (this.deployMode && (this.options.skipValidation || this.config.skipValidation)) {
       return Promise.resolve()
     }
