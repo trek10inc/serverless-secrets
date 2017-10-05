@@ -107,7 +107,7 @@ class ServerlessSecrets {
   }
 
   getStorageProvider () {
-    const providerOptions = this.config.providerOptions || {}
+    const providerOptions = this.config.options.providerOptions || {}
 
     // region flag overrides configuration only when not deploying
     if (!this.deployMode && this.options.region) providerOptions.region = this.options.region
@@ -133,10 +133,10 @@ class ServerlessSecrets {
     }
 
     let defaultKey, customKey
-    if (this.config.keys) {
-      defaultKey = this.config.keys.default
+    if (this.config.options.keys) {
+      defaultKey = this.config.options.keys.default
       if (this.options.key) {
-        customKey = this.config.keys[this.options.key]
+        customKey = this.config.options.keys[this.options.key]
       }
     }
 
@@ -199,7 +199,7 @@ class ServerlessSecrets {
     }
 
     // build options object
-    const config = Object.assign(
+    const options = Object.assign(
       {
         throwOnMissingSecret: false,
         logOnMissingSecret: true,
@@ -215,7 +215,7 @@ class ServerlessSecrets {
 
     // variables
     const functions = this.serverless.service.functions
-    config.environments = Object.keys(functions)
+    const environments = Object.keys(functions)
       .reduce((environments, key) => {
         const functionName = functions[key].handler.split('.')[1]
         if (functions[key].environmentSecrets) {
@@ -224,9 +224,12 @@ class ServerlessSecrets {
         return environments
       }, {})
 
-    config.environments.$global = this.serverless.service.provider.environmentSecrets || {}
+    environments.$global = this.serverless.service.provider.environmentSecrets || {}
 
-    return config
+    return {
+      options,
+      environments
+    }
   }
 
   writeConfigFile () {
@@ -250,17 +253,17 @@ class ServerlessSecrets {
       _.set(this.serverless.service, ['provider.iamRoleStatements'], [])
       iamRoleStatements = _.get(this.serverless.service, 'provider.iamRoleStatements')
     }
-    if (this.deployMode && !(this.options.omitPermissions || this.config.omitPermissions)) {
+    if (this.deployMode && !(this.options.omitPermissions || this.config.options.omitPermissions)) {
       iamRoleStatements.push({
         Effect: 'Allow',
         Action: 'ssm:GetParameters',
-        Resource: this.config.resourceForIamRole || '*' // todo make this enumerate the exact secrets
+        Resource: this.config.options.resourceForIamRole || '*' // todo make this enumerate the exact secrets
       })
     }
   }
 
   validateSecrets () {
-    if (this.deployMode && (this.options.skipValidation || this.config.skipValidation)) {
+    if (this.deployMode && (this.options.skipValidation || this.config.options.skipValidation)) {
       return Promise.resolve()
     }
     this.serverless.cli.log('Validating secrets')
