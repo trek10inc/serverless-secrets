@@ -94,6 +94,7 @@ class ServerlessSecrets {
       'secrets:get:get': this.getSecret.bind(this),
       'secrets:list-remote:list-remote': this.listRemoteSecretNames.bind(this),
       'secrets:validate:validate': this.validateSecrets.bind(this),
+      'before:package:setupProviderConfiguration': this.setIamPermissions.bind(this),
       'before:package:createDeploymentArtifacts': this.packageSecrets.bind(this),
       'after:package:createDeploymentArtifacts': this.cleanupPackageSecrets.bind(this),
       'before:deploy:function:packageFunction': this.packageSecrets.bind(this),
@@ -187,7 +188,6 @@ class ServerlessSecrets {
     }
     this.serverless.service.package.include.push(constants.CONFIG_FILE_NAME)
 
-    this.setIamPermissions()
     return this.validateSecrets()
       .then(() => this.setAdditionalEnvironmentVariables())
   }
@@ -253,7 +253,7 @@ class ServerlessSecrets {
       _.set(this.serverless.service, ['provider.iamRoleStatements'], [])
       iamRoleStatements = _.get(this.serverless.service, 'provider.iamRoleStatements')
     }
-    if (this.deployMode && !(this.options.omitPermissions || this.config.options.omitPermissions)) {
+    if (!this.options.omitPermissions && !this.config.options.omitPermissions) {
       iamRoleStatements.push({
         Effect: 'Allow',
         Action: 'ssm:GetParameters',
