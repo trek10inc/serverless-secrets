@@ -250,7 +250,7 @@ class ServerlessSecrets {
   setIamPermissions () {
     let iamRoleStatements = _.get(this.serverless.service, 'provider.iamRoleStatements', null)
     if (!iamRoleStatements) {
-      _.set(this.serverless.service, ['provider.iamRoleStatements'], [])
+      _.set(this.serverless.service, 'provider.iamRoleStatements', [])
       iamRoleStatements = _.get(this.serverless.service, 'provider.iamRoleStatements')
     }
     if (!this.options.omitPermissions && !this.config.options.omitPermissions) {
