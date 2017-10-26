@@ -77,7 +77,7 @@ plugins:
 
 ### environmentSecrets
 
-With a standard Serverless project, you can use the `envrionment` property to add environment variables
+With a standard Serverless project, you can use the `environment` property to add environment variables
 to individual functions as well as to all of your functions via the `provider` section. We augment this
 concept by adding an `environmentSecrets` section to the provider and any function. Just like
 `environment`, the properties under the `environmentSecrets` property become environment variables,
