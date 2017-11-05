@@ -345,6 +345,55 @@ module.exports.handler = function (event, context, callback) {
 };
 ```
 
+### Use with [`serverless-webpack`](https://github.com/serverless-heaven/serverless-webpack)
+
+Normally, the secrets client is initialized with a dynamic require. With webpack that does
+not work very well, because any requires are evaluated at compile time to detect the
+project's dependencies. If you use `serverless-webpack` you have to configure your project
+as follows.
+
+#### Include `.serverless-secrets.json`
+
+Include the secrets configuration file by using the `file-loader`, so that it is integrated
+into the compiled sources and can be dereferences by webpack when required.
+
+```
+// webpack.config.js
+module.exports = {
+  ...
+  module: {
+    rules: [
+      ...
+      {
+        test: /\.serverless-secrets.json$/,
+        use: [
+          {
+            loader: 'file-loader'
+          }
+        ],
+      },
+      ...
+    ]
+  },
+};
+```
+
+#### Load and initialize the secrets configuration in your handler
+
+```
+const secretsClient = require('serverless-secrets/client');
+
+// Initialize the client with the configuration file.
+// Webpack will resolve this automatically. Adjust the relative path accordingly.
+secretsClient.init(require('../../.serverless-secrets.json'));
+
+const ssPromise = secretsClient.loadByName('API_KEY', '/my-project/dev/api-key');
+
+module.exports.handler = function (event, context, callback) {
+  ...
+};
+```
+
 ## Misc
 
 ### AWS IAM
