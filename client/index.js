@@ -3,7 +3,7 @@ const path = require('path')
 const _ = require('lodash')
 const constants = require('../lib/constants')
 
-const secrets = require(path.join(process.cwd(), constants.CONFIG_FILE_NAME))
+const getConfig = () => require(path.join(process.cwd(), constants.CONFIG_FILE_NAME))
 
 function getStorageProvider (options) {
   switch (options.provider) {
@@ -15,6 +15,7 @@ function getStorageProvider (options) {
 }
 
 function load (options) {
+  const secrets = getConfig()
   const mergedOptions = Object.assign({}, secrets.options, options)
   const environmentSecrets = Object.assign({}, secrets.environments.$global, secrets.environments[process.env._HANDLER.split('.')[1]])
   const parameterNames = _.uniq(_.values(environmentSecrets))
@@ -31,6 +32,7 @@ function load (options) {
 }
 
 function loadByName (envVarName, parameterName, options) {
+  const secrets = getConfig()
   const mergedOptions = Object.assign({}, secrets.options, options)
   const provider = getStorageProvider(mergedOptions)
   return provider.getSecret(parameterName).then(data => {
