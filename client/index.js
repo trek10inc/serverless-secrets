@@ -16,7 +16,7 @@ function getStorageProvider (options) {
 
 function load (options) {
   const mergedOptions = Object.assign({}, secrets.options, options)
-  const environmentSecrets = Object.assign({}, secrets.environments.$global, secrets.environments[process.env._HANDLER.split('.')[1]])
+  const environmentSecrets = Object.assign({}, secrets.environments.$global, secrets.environments[process.env._HANDLER ? process.env._HANDLER.split('.')[1] : Object.keys(secrets.environments)[0]])
   const parameterNames = _.uniq(_.values(environmentSecrets))
   const provider = getStorageProvider(mergedOptions)
   return provider.getSecret(parameterNames).then(data => {
