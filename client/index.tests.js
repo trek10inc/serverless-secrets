@@ -21,12 +21,11 @@ const defaultSecrets = {
   }
 }
 
+process.env._HANDLER = 'asdf.asdf'
 processEnvClone = _.cloneDeep(process.env)
 secrets = _.cloneDeep(defaultSecrets)
 
 test.beforeEach('create client', t => {
-  process.env._HANDLER = 'asdf.asdf'
-
   awsModule = td.replace('../lib/providers/aws', td.function())
   provider = td.object(['getSecret', 'setSecret'])
   td.when(awsModule(td.matchers.anything())).thenReturn(provider)
@@ -48,20 +47,6 @@ test.afterEach.always('cleanup', t => {
 })
 
 test.serial.cb('load: happy path', t => {
-  secrets.environments.$global.test_variable = 'test_parameter'
-
-  const promise = Promise.resolve({test_parameter: 'test_secret'})
-  td.when(provider.getSecret(['test_parameter'])).thenReturn(promise)
-
-  client.load().then(() => {
-    t.is(process.env.test_variable, 'test_secret')
-    t.end()
-  })
-})
-
-test.serial.cb('load: process.env._HANDLER undefined', t => {
-  process.env._HANDLER = undefined
-
   secrets.environments.$global.test_variable = 'test_parameter'
 
   const promise = Promise.resolve({test_parameter: 'test_secret'})
