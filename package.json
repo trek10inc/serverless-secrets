@@ -29,7 +29,9 @@
   "homepage": "https://github.com/trek10inc/serverless-secrets",
   "dependencies": {
     "aws-sdk": "^2.102.0",
-    "lodash": "^4.17.4"
+    "https-proxy-agent": "^2.1.0",
+    "lodash": "^4.17.4",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "ava": "^0.19.1",
