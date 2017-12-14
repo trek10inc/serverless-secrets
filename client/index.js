@@ -1,4 +1,5 @@
 'use strict'
+const fs = require('fs')
 const path = require('path')
 const _ = require('lodash')
 const constants = require('../lib/constants')
@@ -14,9 +15,14 @@ function getStorageProvider (options) {
   }
 }
 
+function loadConfig () {
+  const configPath = path.join(process.cwd(), constants.CONFIG_FILE_NAME)
+  return JSON.parse(fs.readFileSync(configPath, 'utf8'))
+}
+
 function init (config) {
   if (!secrets) {
-    secrets = config || require(path.join(process.cwd(), constants.CONFIG_FILE_NAME))
+    secrets = config || loadConfig()
   }
 }
 
