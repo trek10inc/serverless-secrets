@@ -246,7 +246,7 @@ class ServerlessSecrets {
       Object.assign(functions[functionName].environment, this.config.environments.$global, this.config.environments[functionName])
     })
 
-    // process.env.IS_LOCAL === 'true' is set when called 'sls invoke local'
+    // process.env.IS_LOCAL === 'true' is set when called by 'sls invoke local'
     if (process.env._HANDLER === undefined && process.env.IS_LOCAL === 'true') {
       const invokedFunction = functions[this.serverless.processedInput.options.function]
       process.env._HANDLER = invokedFunction.handler
