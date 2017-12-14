@@ -28,12 +28,14 @@
   },
   "homepage": "https://github.com/trek10inc/serverless-secrets",
   "dependencies": {
-    "aws-sdk": "^2.102.0",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
     "ava": "^0.19.1",
     "testdouble": "^2.1.2"
+  },
+  "peerDependencies": {
+    "aws-sdk": "^2.102.0"
   },
   "ava": {
     "files": [
