@@ -60,7 +60,22 @@ class ServerlessSecrets {
                 required: true
               },
               region: {
-                usage: 'AWS region where secret will be stored; if not supplied, region will fallback to configured (or default) `providerOptions`',
+                usage: 'AWS region where secret is stored; if not supplied, region will fallback to configured (or default) `providerOptions`',
+                shortcut: 'r'
+              }
+            }
+          },
+          delete: {
+            lifecycleEvents: ['delete'],
+            usage: 'Deletes a secret value by name.',
+            options: {
+              name: {
+                usage: '[REQUIRED] name of the secret',
+                shortcut: 'n',
+                required: true
+              },
+              region: {
+                usage: 'AWS region where secret is stored; if not supplied, region will fallback to configured (or default) `providerOptions`',
                 shortcut: 'r'
               }
             }
@@ -92,6 +107,7 @@ class ServerlessSecrets {
     this.hooks = {
       'secrets:set:set': this.setSecret.bind(this),
       'secrets:get:get': this.getSecret.bind(this),
+      'secrets:delete:delete': this.deleteSecret.bind(this),
       'secrets:list-remote:list-remote': this.listRemoteSecretNames.bind(this),
       'secrets:validate:validate': this.validateSecrets.bind(this),
       'before:package:setupProviderConfiguration': this.setIamPermissions.bind(this),
@@ -157,6 +173,12 @@ class ServerlessSecrets {
         }
         console.log(data[this.options.name])
       })
+  }
+
+  deleteSecret () {
+    const storageProvider = this.getStorageProvider()
+    storageProvider.deleteSecret(this.options.name)
+      .then(() => console.log(`Deleted parameter: ${this.options.name}`))
   }
 
   listRemoteSecretNames () {

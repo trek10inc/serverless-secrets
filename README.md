@@ -216,6 +216,20 @@ Retrieve decrypted values of your secrets from the provider's secret store
 
 `serverless secrets get --name my-secret --region us-west-2`
 
+### serverless secrets delete [name]
+
+Delete your secrets from the provider's secret store
+
+#### Parameters
+
+`--name / -n`: REQUIRED; name of the secret
+
+`--region / -r`: OPTIONAL; if not supplied, region will fallback to configured (or default) `providerOptions`
+
+#### Usage samples
+
+`serverless secrets delete --name my-secret --region us-west-2`
+
 ### serverless secrets list-remote
 
 List all of the secrets (name and description only) stored in a given region
