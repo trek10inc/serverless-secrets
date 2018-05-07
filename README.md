@@ -439,9 +439,10 @@ provider:
     API_KEY: 'testsecret'
 ...
 custom:
-  webpackIncludeModules:
-    forceExclude:
-      - aws-sdk
+  webpack:
+    includeModules:
+      forceExclude:
+        - aws-sdk
 ```
 
 ### The Webpack configuration
