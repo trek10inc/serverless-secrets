@@ -1,6 +1,6 @@
 {
-  "name": "serverless-secrets",
-  "version": "3.0.0-beta.11",
+  "name": "@tabordasolutions/serverless-secrets",
+  "version": "3.0.0-beta.12",
   "description": "A serverless plugin for managing secrets",
   "main": "plugin/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/trek10inc/serverless-secrets"
+    "url": "https://github.com/tabordasolutions/serverless-secrets"
   },
   "keywords": [
     "serverless",
@@ -21,12 +21,12 @@
     "parameter store",
     "env"
   ],
-  "author": "Jared Short <jshort@trek10.com> (https://www.trek10.com)",
+  "author": "Sneha Nagole <sneha.nagole@tabordasolutions.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/trek10inc/serverless-secrets/issues"
   },
-  "homepage": "https://github.com/trek10inc/serverless-secrets",
+  "homepage": "https://github.com/tabordasolutions/serverless-secrets",
   "dependencies": {
     "lodash": "^4.17.4"
   },
