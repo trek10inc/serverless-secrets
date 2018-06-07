@@ -1,5 +1,5 @@
 {
-  "name": "@tabordasolutions/serverless-secrets",
+  "name": "serverless-secrets",
   "version": "3.0.0-beta.12",
   "description": "A serverless plugin for managing secrets",
   "main": "plugin/index.js",
