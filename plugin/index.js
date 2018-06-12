@@ -111,6 +111,7 @@ class ServerlessSecrets {
       'secrets:list-remote:list-remote': this.listRemoteSecretNames.bind(this),
       'secrets:validate:validate': this.validateSecrets.bind(this),
       'before:package:setupProviderConfiguration': this.setIamPermissions.bind(this),
+      'before:package:initialize': this.setEnvironmentConfig.bind(this),
       'before:package:createDeploymentArtifacts': this.packageSecrets.bind(this),
       'after:package:createDeploymentArtifacts': this.cleanupPackageSecrets.bind(this),
       'before:deploy:function:packageFunction': this.packageSecrets.bind(this),
@@ -201,7 +202,6 @@ class ServerlessSecrets {
   }
 
   packageSecrets () {
-    this.config.environments = this.generateEnvironmentVariables()
     this.deployMode = true
     this.serverless.cli.log('Serverless Secrets beginning packaging process')
     this.writeConfigFile()
@@ -236,15 +236,16 @@ class ServerlessSecrets {
           }
       )
 
-      const environments = this.generateEnvironmentVariables()
-
       return {
-          options,
-          environments
+          options
       }
   }
 
-  generateEnvironmentVariables() {
+  setEnvironmentConfig() {
+    this.config.environments = this.generateEnvironmentConfig()
+  }
+
+  generateEnvironmentConfig () {
       this.serverless.cli.log('Generating Serverless Secrets Config environments')
       const functions = this.serverless.service.functions
       const environments = Object.keys(functions)
@@ -258,7 +259,7 @@ class ServerlessSecrets {
 
       environments.$global = this.serverless.service.provider.environmentSecrets || {}
 
-      return environments
+      return environments;
   }
 
     writeConfigFile () {
@@ -298,7 +299,6 @@ class ServerlessSecrets {
     this.serverless.cli.log('Validating secrets')
     const provider = this.serverless.service.provider
     const functions = this.serverless.service.functions
-
     // need to validate that all secrets exist in provider
     const storageProvider = this.getStorageProvider()
     const missingSecretsPromise = storageProvider.listSecrets().then(secrets => {
