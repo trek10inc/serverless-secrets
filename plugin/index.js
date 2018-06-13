@@ -216,25 +216,25 @@ class ServerlessSecrets {
   }
 
   generateConfig () {
-      this.serverless.cli.log('Generating Serverless Secrets Config options')
-      if (!this.serverless.service.provider.name) {
-          throw new Error('No provider name configured in serverless.yml')
-      }
+    this.serverless.cli.log('Generating Serverless Secrets Config options')
+    if (!this.serverless.service.provider.name) {
+      throw new Error('No provider name configured in serverless.yml')
+    }
 
-      // build options object
-      const options = Object.assign(
-          {
-              throwOnMissingSecret: false,
-              logOnMissingSecret: true,
-              skipValidation: false,
-              omitPermissions: false,
-              resourceForIamRole: '*'
-          },
-          _.get(this.serverless.service, 'custom.serverlessSecrets', {}),
-          {
-              provider: this.serverless.service.provider.name
-          }
-      )
+    // build options object
+    const options = Object.assign(
+      {
+        throwOnMissingSecret: false,
+        logOnMissingSecret: true,
+        skipValidation: false,
+        omitPermissions: false,
+        resourceForIamRole: '*'
+      },
+      _.get(this.serverless.service, 'custom.serverlessSecrets', {}),
+      {
+        provider: this.serverless.service.provider.name
+      }
+    )
 
       return {
           options
@@ -246,23 +246,23 @@ class ServerlessSecrets {
   }
 
   generateEnvironmentConfig () {
-      this.serverless.cli.log('Generating Serverless Secrets Config environments')
-      const functions = this.serverless.service.functions
-      const environments = Object.keys(functions)
-          .reduce((environments, key) => {
-              const functionName = functions[key].name || [this.serverless.service.service, this.serverless.processedInput.options.stage, key].join('-')
-              if (functions[key].environmentSecrets) {
-                  environments[functionName] = functions[key].environmentSecrets
-              }
-              return environments
-          }, {})
+    this.serverless.cli.log('Generating Serverless Secrets Config environments')
+    const functions = this.serverless.service.functions
+    const environments = Object.keys(functions)
+      .reduce((environments, key) => {
+        const functionName = functions[key].name || [this.serverless.service.service, this.serverless.processedInput.options.stage, key].join('-')
+        if (functions[key].environmentSecrets) {
+          environments[functionName] = functions[key].environmentSecrets
+        }
+        return environments
+      }, {})
 
-      environments.$global = this.serverless.service.provider.environmentSecrets || {}
+    environments.$global = this.serverless.service.provider.environmentSecrets || {}
 
-      return environments;
+    return environments
   }
 
-    writeConfigFile () {
+  writeConfigFile () {
     this.serverless.cli.log(`Writing ${constants.CONFIG_FILE_NAME}`)
     fs.writeFileSync(constants.CONFIG_FILE_NAME, JSON.stringify(this.config))
   }
