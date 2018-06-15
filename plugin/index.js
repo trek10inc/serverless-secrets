@@ -111,6 +111,7 @@ class ServerlessSecrets {
       'secrets:list-remote:list-remote': this.listRemoteSecretNames.bind(this),
       'secrets:validate:validate': this.validateSecrets.bind(this),
       'before:package:setupProviderConfiguration': this.setIamPermissions.bind(this),
+      'before:package:initialize': this.setEnvironmentConfig.bind(this),
       'before:package:createDeploymentArtifacts': this.packageSecrets.bind(this),
       'after:package:createDeploymentArtifacts': this.cleanupPackageSecrets.bind(this),
       'before:deploy:function:packageFunction': this.packageSecrets.bind(this),
@@ -215,7 +216,7 @@ class ServerlessSecrets {
   }
 
   generateConfig () {
-    this.serverless.cli.log('Generating Serverless Secrets Config')
+    this.serverless.cli.log('Generating Serverless Secrets Config options')
     if (!this.serverless.service.provider.name) {
       throw new Error('No provider name configured in serverless.yml')
     }
@@ -235,11 +236,21 @@ class ServerlessSecrets {
       }
     )
 
-    // variables
+      return {
+          options
+      }
+  }
+
+  setEnvironmentConfig() {
+    this.config.environments = this.generateEnvironmentConfig()
+  }
+
+  generateEnvironmentConfig () {
+    this.serverless.cli.log('Generating Serverless Secrets Config environments')
     const functions = this.serverless.service.functions
     const environments = Object.keys(functions)
       .reduce((environments, key) => {
-        const functionName = functions[key].handler.split('.')[1]
+        const functionName = functions[key].name || [this.serverless.service.service, this.serverless.processedInput.options.stage, key].join('-')
         if (functions[key].environmentSecrets) {
           environments[functionName] = functions[key].environmentSecrets
         }
@@ -248,10 +259,7 @@ class ServerlessSecrets {
 
     environments.$global = this.serverless.service.provider.environmentSecrets || {}
 
-    return {
-      options,
-      environments
-    }
+    return environments
   }
 
   writeConfigFile () {
@@ -265,7 +273,7 @@ class ServerlessSecrets {
     const functions = this.serverless.service.functions
     Object.keys(functions).forEach(functionName => {
       if (!functions[functionName].environment) functions[functionName].environment = {}
-      Object.assign(functions[functionName].environment, this.config.environments.$global, this.config.environments[functionName])
+      Object.assign(functions[functionName].environment, this.config.environments.$global, this.config.environments[functions[functionName].name])
     })
   }
 
@@ -291,7 +299,6 @@ class ServerlessSecrets {
     this.serverless.cli.log('Validating secrets')
     const provider = this.serverless.service.provider
     const functions = this.serverless.service.functions
-
     // need to validate that all secrets exist in provider
     const storageProvider = this.getStorageProvider()
     const missingSecretsPromise = storageProvider.listSecrets().then(secrets => {
