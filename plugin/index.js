@@ -110,16 +110,21 @@ class ServerlessSecrets {
       'secrets:delete:delete': this.deleteSecret.bind(this),
       'secrets:list-remote:list-remote': this.listRemoteSecretNames.bind(this),
       'secrets:validate:validate': this.validateSecrets.bind(this),
-      'before:package:setupProviderConfiguration': this.setIamPermissions.bind(this),
-      'before:package:createDeploymentArtifacts': this.packageSecrets.bind(this),
-      'after:package:createDeploymentArtifacts': this.cleanupPackageSecrets.bind(this),
-      'before:deploy:function:packageFunction': this.packageSecrets.bind(this),
-      'after:deploy:function:packageFunction': this.cleanupPackageSecrets.bind(this),
-      'before:offline:start': this.packageSecrets.bind(this),
-      'before:offline:start:init': this.packageSecrets.bind(this),
-      'before:offline:start:end': this.cleanupPackageSecrets.bind(this),
-      'before:invoke:local:invoke': this.packageSecrets.bind(this),
-      'after:invoke:local:invoke': this.cleanupPackageSecrets.bind(this)
+    };
+
+    if (options.enabled) {
+      this.hooks = Object.assign(this.hooks, {
+        'before:package:setupProviderConfiguration': this.setIamPermissions.bind(this),
+        'before:package:createDeploymentArtifacts': this.packageSecrets.bind(this),
+        'after:package:createDeploymentArtifacts': this.cleanupPackageSecrets.bind(this),
+        'before:deploy:function:packageFunction': this.packageSecrets.bind(this),
+        'after:deploy:function:packageFunction': this.cleanupPackageSecrets.bind(this),
+        'before:offline:start': this.packageSecrets.bind(this),
+        'before:offline:start:init': this.packageSecrets.bind(this),
+        'before:offline:start:end': this.cleanupPackageSecrets.bind(this),
+        'before:invoke:local:invoke': this.packageSecrets.bind(this),
+        'after:invoke:local:invoke': this.cleanupPackageSecrets.bind(this)
+      });
     }
   }
 

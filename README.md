@@ -137,6 +137,8 @@ is unable to be retrieved. Default value: `true`.
 The following options apply only to the custom section as they are only used in deploy/package CLI
 operations:
 
+- `enabled` - boolean: If set to false, the plugin is disabled. This is useful for local development.
+Default value: `true`.
 - `skipValidation` - boolean: If set to true, validation of the existence of your secrets in
 your provider's secret store will not be performed during deployment/packaging operations.
 Default value: `false`.
