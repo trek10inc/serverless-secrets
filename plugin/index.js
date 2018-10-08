@@ -113,7 +113,7 @@ class ServerlessSecrets {
     };
 
     if (options.enabled) {
-      this.hooks = Object.assign(this.hooks, {
+      Object.assign(this.hooks, {
         'before:package:setupProviderConfiguration': this.setIamPermissions.bind(this),
         'before:package:createDeploymentArtifacts': this.packageSecrets.bind(this),
         'after:package:createDeploymentArtifacts': this.cleanupPackageSecrets.bind(this),
