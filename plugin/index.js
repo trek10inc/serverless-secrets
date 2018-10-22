@@ -110,21 +110,16 @@ class ServerlessSecrets {
       'secrets:delete:delete': this.deleteSecret.bind(this),
       'secrets:list-remote:list-remote': this.listRemoteSecretNames.bind(this),
       'secrets:validate:validate': this.validateSecrets.bind(this),
-    };
-
-    if (options.enabled) {
-      Object.assign(this.hooks, {
-        'before:package:setupProviderConfiguration': this.setIamPermissions.bind(this),
-        'before:package:createDeploymentArtifacts': this.packageSecrets.bind(this),
-        'after:package:createDeploymentArtifacts': this.cleanupPackageSecrets.bind(this),
-        'before:deploy:function:packageFunction': this.packageSecrets.bind(this),
-        'after:deploy:function:packageFunction': this.cleanupPackageSecrets.bind(this),
-        'before:offline:start': this.packageSecrets.bind(this),
-        'before:offline:start:init': this.packageSecrets.bind(this),
-        'before:offline:start:end': this.cleanupPackageSecrets.bind(this),
-        'before:invoke:local:invoke': this.packageSecrets.bind(this),
-        'after:invoke:local:invoke': this.cleanupPackageSecrets.bind(this)
-      });
+      'before:package:setupProviderConfiguration': this.setIamPermissions.bind(this),
+      'before:package:createDeploymentArtifacts': this.packageSecrets.bind(this),
+      'after:package:createDeploymentArtifacts': this.cleanupPackageSecrets.bind(this),
+      'before:deploy:function:packageFunction': this.packageSecrets.bind(this),
+      'after:deploy:function:packageFunction': this.cleanupPackageSecrets.bind(this),
+      'before:offline:start': this.packageSecrets.bind(this),
+      'before:offline:start:init': this.packageSecrets.bind(this),
+      'before:offline:start:end': this.cleanupPackageSecrets.bind(this),
+      'before:invoke:local:invoke': this.packageSecrets.bind(this),
+      'after:invoke:local:invoke': this.cleanupPackageSecrets.bind(this)
     }
   }
 
@@ -142,6 +137,10 @@ class ServerlessSecrets {
       default:
         throw new Error(`Provider not supported: ${providerName}`)
     }
+  }
+
+  isEnabled () {
+    return _.get(this.serverless.service, 'custom.serverlessSecrets.enabled', true)
   }
 
   setSecret () {
@@ -201,11 +200,19 @@ class ServerlessSecrets {
   }
 
   cleanupPackageSecrets () {
+    if (!this.isEnabled()) {
+      return
+    }
+
     this.serverless.cli.log(`Cleaning up ${constants.CONFIG_FILE_NAME}`)
     if (fs.existsSync(constants.CONFIG_FILE_NAME)) fs.unlinkSync(constants.CONFIG_FILE_NAME)
   }
 
   packageSecrets () {
+    if (!this.isEnabled()) {
+      return
+    }
+
     this.deployMode = true
     this.serverless.cli.log('Serverless Secrets beginning packaging process')
     this.writeConfigFile()
@@ -275,6 +282,10 @@ class ServerlessSecrets {
   }
 
   setIamPermissions () {
+    if (!this.isEnabled()) {
+      return
+    }
+
     let iamRoleStatements = _.get(this.serverless.service, 'provider.iamRoleStatements', null)
     if (!iamRoleStatements) {
       _.set(this.serverless.service, 'provider.iamRoleStatements', [])
