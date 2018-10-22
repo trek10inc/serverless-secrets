@@ -143,6 +143,10 @@ class ServerlessSecrets {
     return _.get(this.serverless.service, 'custom.serverlessSecrets.enabled', true)
   }
 
+  skipValidation () {
+    return this.options.skipValidation || this.config.options.skipValidation || _.get(this.serverless.service, 'custom.serverlessSecrets.skipValidation', false)
+  }
+
   setSecret () {
     let value
     if (this.options.file) {
@@ -301,7 +305,7 @@ class ServerlessSecrets {
   }
 
   validateSecrets () {
-    if (this.deployMode && (this.options.skipValidation || this.config.options.skipValidation)) {
+    if (this.deployMode && this.skipValidation()) {
       return Promise.resolve()
     }
     this.serverless.cli.log('Validating secrets')
