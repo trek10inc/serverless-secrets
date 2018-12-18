@@ -1,6 +1,6 @@
 {
-  "name": "serverless-secrets",
-  "version": "3.0.0-beta.11",
+  "name": "serverless-secrets-thomaschaaf",
+  "version": "3.0.0-beta.11-custom.4",
   "description": "A serverless plugin for managing secrets",
   "main": "plugin/index.js",
   "scripts": {
