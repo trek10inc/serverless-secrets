@@ -123,7 +123,6 @@ class ServerlessSecrets {
   }
 
   getStorageProvider () {
-    this.config = this.generateConfig();
     const providerOptions = this.config.options.providerOptions || {}
 
     // region flag overrides configuration only when not deploying
@@ -286,6 +285,8 @@ class ServerlessSecrets {
   }
 
   setIamPermissions () {
+    this.config = this.generateConfig();
+
     if (!this.isEnabled()) {
       return
     }
