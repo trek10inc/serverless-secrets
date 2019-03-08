@@ -9,7 +9,6 @@ class ServerlessSecrets {
     this.serverless = serverless
     this.options = options
     this.deployMode = false
-    this.config = this.generateConfig()
 
     // todo figure out what needs to be extracted to another file to support multiprovider CLI
     this.commands = {
@@ -124,6 +123,7 @@ class ServerlessSecrets {
   }
 
   getStorageProvider () {
+    this.config = this.generateConfig();
     const providerOptions = this.config.options.providerOptions || {}
 
     // region flag overrides configuration only when not deploying
