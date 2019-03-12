@@ -1,5 +1,5 @@
 {
-  "name": "serverless-secrets-thomaschaaf",
+  "name": "@finanzcheck/serverless-secrets",
   "version": "3.0.0-beta.11-custom.7",
   "description": "A serverless plugin for managing secrets",
   "main": "plugin/index.js",
@@ -43,5 +43,8 @@
       "**/*.{test,tests}.{js,jsx}"
     ],
     "concurrency": 5
+  },
+  "publishConfig": {
+    "registry": "https://npm.finanzcheck.de"
   }
 }
