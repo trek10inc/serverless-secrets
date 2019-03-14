@@ -1,6 +1,6 @@
 {
   "name": "@finanzcheck/serverless-secrets",
-  "version": "3.0.0-beta.11-custom.7",
+  "version": "3.0.1",
   "description": "A serverless plugin for managing secrets",
   "main": "plugin/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/trek10inc/serverless-secrets"
+    "url": "https://github.com/finanzcheck/serverless-secrets"
   },
   "keywords": [
     "serverless",
@@ -24,9 +24,9 @@
   "author": "Jared Short <jshort@trek10.com> (https://www.trek10.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/trek10inc/serverless-secrets/issues"
+    "url": "https://github.com/finanzcheck/serverless-secrets/issues"
   },
-  "homepage": "https://github.com/trek10inc/serverless-secrets",
+  "homepage": "https://github.com/finanzcheck/serverless-secrets",
   "dependencies": {
     "lodash": "^4.17.4"
   },
