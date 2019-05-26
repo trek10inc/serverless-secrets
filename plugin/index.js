@@ -143,7 +143,7 @@ class ServerlessSecrets {
   }
 
   skipValidation () {
-    return this.options.skipValidation || this.config.options.skipValidation || _.get(this.serverless.service, 'custom.serverlessSecrets.skipValidation', false)
+    return _.get(this, 'options.skipValidation') || _.get(this, 'config.options.skipValidation') || _.get(this.serverless.service, 'custom.serverlessSecrets.skipValidation', false)
   }
 
   setSecret () {
@@ -214,6 +214,9 @@ class ServerlessSecrets {
   packageSecrets () {
     if (!this.isEnabled()) {
       return
+    }
+    if (!this.config) {
+      this.config = this.generateConfig();
     }
 
     this.deployMode = true
