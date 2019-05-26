@@ -247,10 +247,10 @@ class ServerlessSecrets {
         omitPermissions: false,
         resourceForIamRole: '*'
       },
-      _.get(this.serverless.service, 'custom.serverlessSecrets', {}),
       {
         provider: this.serverless.service.provider.name
-      }
+      },
+      _.get(this.serverless.service, 'custom.serverlessSecrets', {}),
     )
 
     // variables
