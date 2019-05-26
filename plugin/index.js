@@ -133,6 +133,8 @@ class ServerlessSecrets {
     switch (providerName) {
       case 'aws':
         return (require('../lib/providers/aws'))(providerOptions)
+      case 'offline':
+        return (require('../lib/providers/offline'))(providerOptions)
       default:
         throw new Error(`Provider not supported: ${providerName}`)
     }
