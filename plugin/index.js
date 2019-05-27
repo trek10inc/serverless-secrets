@@ -133,6 +133,8 @@ class ServerlessSecrets {
     switch (providerName) {
       case 'aws':
         return (require('../lib/providers/aws'))(providerOptions)
+      case 'offline':
+        return (require('../lib/providers/offline'))(providerOptions)
       default:
         throw new Error(`Provider not supported: ${providerName}`)
     }
@@ -143,7 +145,7 @@ class ServerlessSecrets {
   }
 
   skipValidation () {
-    return this.options.skipValidation || this.config.options.skipValidation || _.get(this.serverless.service, 'custom.serverlessSecrets.skipValidation', false)
+    return _.get(this, 'options.skipValidation') || _.get(this, 'config.options.skipValidation') || _.get(this.serverless.service, 'custom.serverlessSecrets.skipValidation', false)
   }
 
   setSecret () {
@@ -215,6 +217,9 @@ class ServerlessSecrets {
     if (!this.isEnabled()) {
       return
     }
+    if (!this.config) {
+      this.config = this.generateConfig();
+    }
 
     this.deployMode = true
     this.serverless.cli.log('Serverless Secrets beginning packaging process')
@@ -244,10 +249,10 @@ class ServerlessSecrets {
         omitPermissions: false,
         resourceForIamRole: '*'
       },
-      _.get(this.serverless.service, 'custom.serverlessSecrets', {}),
       {
         provider: this.serverless.service.provider.name
-      }
+      },
+      _.get(this.serverless.service, 'custom.serverlessSecrets', {}),
     )
 
     // variables

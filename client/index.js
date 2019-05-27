@@ -10,6 +10,8 @@ function getStorageProvider (options) {
   switch (options.provider) {
     case 'aws':
       return (require('../lib/providers/aws'))(options.providerOptions || {})
+    case 'offline':
+      return (require('../lib/providers/offline'))({})
     default:
       throw new Error(`Provider not supported: ${options.provider}`)
   }
