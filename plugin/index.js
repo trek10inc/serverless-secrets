@@ -98,7 +98,14 @@ class ServerlessSecrets {
                 shortcut: 'r'
               }
             }
-          }
+          },
+          print: {
+            lifecycleEvents: ['print'],
+            usage: 'Print config',
+            options: {
+
+            }
+          },
         }
       }
     }
@@ -118,7 +125,19 @@ class ServerlessSecrets {
       'before:offline:start:init': this.packageSecrets.bind(this),
       'before:offline:start:end': this.cleanupPackageSecrets.bind(this),
       'before:invoke:local:invoke': this.packageSecrets.bind(this),
-      'after:invoke:local:invoke': this.cleanupPackageSecrets.bind(this)
+      'after:invoke:local:invoke': this.cleanupPackageSecrets.bind(this),
+      'secrets:print:print': () => {
+        this.serverless.cli.log = () => {}
+
+        if (!this.isEnabled()) {
+          console.log({})
+          return
+        }
+        if (!this.config) {
+          this.config = this.generateConfig();
+        }
+        console.log(JSON.stringify(this.config))
+      },
     }
   }
 
