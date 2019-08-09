@@ -1,0 +1,13 @@
+type: library
+owners:
+  - teamx@finanzcheck.de
+product: serverless-secrets
+id: cross-selling-fork-serverless-secrets
+vertical: ffg
+availability: false
+confidentiality: company-confidential-sensitive-pii
+integrity: true
+authenticity: true
+exposure:
+  - platform
+lifecycle: ga
