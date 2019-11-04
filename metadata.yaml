@@ -1,3 +1,5 @@
+description: >-
+  this is a fork of the npm package serverless-secrets
 type: library
 owners:
   - teamx@finanzcheck.de
