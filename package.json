@@ -32,8 +32,8 @@
   },
   "devDependencies": {
     "ava": "^0.19.1",
-    "testdouble": "^2.1.2",
-    "aws-sdk": "^2.102.0"
+    "aws-sdk": "^2.718.0",
+    "testdouble": "^2.1.2"
   },
   "peerDependencies": {
     "aws-sdk": "^2.102.0"
