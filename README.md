@@ -1,3 +1,5 @@
+## Deprecated - no longer maintained: recommend use of AWS Secrets Manager or SSM Parameter Store
+
 ![serverless_secrets_logo](https://cloud.githubusercontent.com/assets/1689118/15905519/23bf2208-2d83-11e6-96fb-7dc1edd359ee.png)
 
 *An opinionated tool for safely managing and deploying Serverless projects and their secrets*
