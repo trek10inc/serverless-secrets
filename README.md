@@ -69,7 +69,7 @@ to load the secrets.
 
 In the root of your Serverless project:
 
-`npm install serverless-secrets --save-dev` or `yarn add serverless-secrets --dev`
+`npm install serverless-secrets --save` or `yarn add serverless-secrets`
 
 Add the plugin to your `serverless.yml`:
 
