@@ -158,6 +158,34 @@ specify a `default` key, along with other named keys. Any operation that takes a
 search the shortcuts first. If no key id is provided, the `default` key will be used, if set.
 If no key id is provided and no `default` exists, the provider default will be used.
 
+### Create a Customer Master Key
+
+Serverless Secrets requires an encryption key be available to the serverless functions. [AWS documents
+how to create a Customer Master Key (CMK) using the console or
+API.](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) The lambda function's role
+must be authorized to decrypt values using the key. The lambda function's role is
+"{service}-{stage}-{region}-lambdaRole". The following example assumes a key was created with alias
+"XYZ". The role "fantastic-toaster-dev-us-east-1-lambdaRole" is in the key's usage permissions.
+
+```yaml
+plugins:
+  - serverless-secrets
+
+service: fantastic-toaster
+
+provider:
+  name: aws
+  stage: dev
+  region: us-east-1
+
+custom:
+  serverlessSecrets:
+    providerOptions:
+      region: us-east-1
+    keys:
+      default: 'alias/XYZ'
+```
+
 ## CLI
 
 ### serverless secrets set [parameters]
